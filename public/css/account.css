@@ -1,13 +1,16 @@
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,700);
 
 .buttons {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: relative;
+  /*
+  top: 35%;
+  left: 35%;
+  */
   width: 500px;
   height: 60px;
-  margin-top: -30px;
-  margin-left: -165px;
+  margin: 0 auto;
+  margin-top: 275px;
+  padding-left: 25px;
 }
 
 ul {list-style: none; font-size: 0;}
