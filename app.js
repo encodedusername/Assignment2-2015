@@ -218,11 +218,46 @@ app.get('/igMediaCounts', ensureAuthenticatedInstagram, function(req, res){
   });
 });
 
+app.get('/igMediaLikes', ensureAuthenticatedInstagram, function(req, res){
+  var query  = models.User.where({ ig_id: req.user.ig_id });
+  query.findOne(function (err, user) {
+    if (err) return err;
+    if (user) {
+      Instagram.users.follows({ 
+        user_id: user.ig_id,
+        access_token: user.ig_access_token,
+        complete: function(data) {
+          // an array of asynchronous functions
+          var asyncTasks = [];
+          var mediaCounts = [];
+           
+          data.forEach(function(item){
+            asyncTasks.push(function(callback){
+              // asynchronous function!
+              Instagram.users.info({ 
+                  user_id: item.id,
+                  access_token: user.ig_access_token,
+                  complete: function(data) {
+                    mediaCounts.push(data);
+                    callback();
+                  }
+                });            
+            });
+          });
+          
+          // Now we have an array of functions, each containing an async task
+          // Execute all async tasks in the asyncTasks array
+          async.parallel(asyncTasks, function(err){
+            // All tasks are done now
+            if (err) return err;
+            return res.json({users: mediaCounts});        
+          });
+        }
+      });   
+    }
+  });
+});
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 app.get('/visualization', ensureAuthenticatedInstagram, function (req, res){
   res.render('visualization');
 }); 
