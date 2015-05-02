@@ -223,22 +223,22 @@ app.get('/igMediaLikes', ensureAuthenticatedInstagram, function(req, res){
   query.findOne(function (err, user) {
     if (err) return err;
     if (user) {
-      Instagram.users.follows({ 
+      Instagram.users.self({ 
         user_id: user.ig_id,
         access_token: user.ig_access_token,
         complete: function(data) {
           // an array of asynchronous functions
           var asyncTasks = [];
-          var mediaCounts = [];
+          var media = [];
            
           data.forEach(function(item){
             asyncTasks.push(function(callback){
               // asynchronous function!
-              Instagram.users.info({ 
-                  user_id: item.id,
+              Instagram.media.info({ 
+                  media_id: item.id,
                   access_token: user.ig_access_token,
                   complete: function(data) {
-                    mediaCounts.push(data);
+                    media.push(data);
                     callback();
                   }
                 });            
@@ -250,7 +250,7 @@ app.get('/igMediaLikes', ensureAuthenticatedInstagram, function(req, res){
           async.parallel(asyncTasks, function(err){
             // All tasks are done now
             if (err) return err;
-            return res.json({users: mediaCounts});        
+            return res.json({media: media});        
           });
         }
       });   
