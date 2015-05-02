@@ -19,12 +19,23 @@ var yAxis = d3.svg.axis()
   .scale(scaleY)
   .orient("left");
 
+//Create tooltip
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Photos:</strong> <span style='color:red'>"+ d.counts.media+ "</span>";
+  })
+
+
 //create svg
 var svg = d3.select("body").append("svg")
   .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.call(tip);
 
 var g_data;
 //get json object which contains media counts
@@ -34,6 +45,9 @@ d3.json('/igMediaCounts', function(error, data) {
   scaleX.domain(g_data.users.map(function(d) { return d.username; }));
   //set domain of y to be from 0 to the maximum media count returned
   scaleY.domain([0, d3.max(g_data.users, function(d) { return d.counts.media; })]);
+
+
+
 
   //set up x axis
   svg.append("g")
@@ -59,6 +73,7 @@ d3.json('/igMediaCounts', function(error, data) {
     .style("text-anchor", "end")
     .text("Number of Photos");
 
+
   //set up bars in bar graph
   svg.selectAll(".bar")
     .data(g_data.users)
@@ -67,7 +82,9 @@ d3.json('/igMediaCounts', function(error, data) {
     .attr("x", function(d) { return scaleX(d.username); })
     .attr("width", scaleX.rangeBand())
     .attr("y", function(d) { return scaleY(d.counts.media); })
-    .attr("height", function(d) { return height - scaleY(d.counts.media); });
+    .attr("height", function(d) { return height - scaleY(d.counts.media); })
+    .on('mouseover',tip.show)
+    .on('mouseout', tip.hide)
 });
 
 function update() {
