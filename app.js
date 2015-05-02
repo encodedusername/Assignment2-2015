@@ -228,78 +228,22 @@ app.get('/igMediaLikes', ensureAuthenticatedInstagram, function(req, res){
         access_token: user.ig_access_token,
         complete: function(data) {
             return res.json({media: data});  
-          /*
-          // an array of asynchronous functions
-          var asyncTasks = [];
-          var media = [];
-           
-          data.forEach(function(item){
-            asyncTasks.push(function(callback){
-              // asynchronous function!
-              console.log(item.type);
-              console.log(item.id);
-              if (item.type == "sweg") {
-                Instagram.media.info({ 
-                    media_id: item.id,
-                    access_token: user.ig_access_token,
-                    complete: function(data) {
-                      media.push(data);
-                      callback();
-                    }
-                  });     
-              }
-              else
-                callback();       
-            });
-          });
-          
-          // Now we have an array of functions, each containing an async task
-          // Execute all async tasks in the asyncTasks array
-          async.parallel(asyncTasks, function(err){
-            // All tasks are done now
-            if (err) return err;
-            return res.json({media: media});        
-          });*/
         }
       });   
     }
   });
 });
 
-app.get('/igCommonFollows', ensureAuthenticatedInstagram, function(req, res){
+app.get('/igMyLikes', ensureAuthenticatedInstagram, function(req, res){
   var query  = models.User.where({ ig_id: req.user.ig_id });
   query.findOne(function (err, user) {
     if (err) return err;
     if (user) {
-      Instagram.users.followed_by({ 
+      Instagram.users.liked_by_self({ 
         user_id: user.ig_id,
         access_token: user.ig_access_token,
         complete: function(data) {
-          // an array of asynchronous functions
-          var asyncTasks = [];
-          var media = [];
-           
-          data.forEach(function(item){
-            asyncTasks.push(function(callback){
-              // asynchronous function!
-              Instagram.media.info({ 
-                  media_id: item.id,
-                  access_token: user.ig_access_token,
-                  complete: function(data) {
-                    media.push(data);
-                    callback();
-                  }
-                });            
-            });
-          });
-          
-          // Now we have an array of functions, each containing an async task
-          // Execute all async tasks in the asyncTasks array
-          async.parallel(asyncTasks, function(err){
-            // All tasks are done now
-            if (err) return err;
-            return res.json({media: media});        
-          });
+          return res.json({media: data});
         }
       });   
     }
@@ -317,6 +261,9 @@ app.get('/c3visualization', ensureAuthenticatedInstagram, function (req, res){
 
 app.get('/new-c3', ensureAuthenticatedInstagram, function (req, res){
   res.render('new-c3');
+});
+app.get('/new-d3', ensureAuthenticatedInstagram, function (req, res){
+  res.render('new-d3');
 });
 
 app.get('/auth/instagram',
