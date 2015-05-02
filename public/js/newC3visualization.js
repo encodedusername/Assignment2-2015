@@ -1,8 +1,8 @@
 (function() {
-  $.getJSON( '/igMediaCounts')
+  $.getJSON( '/igMediaLikes')
     .done(function( data ) {
-      var yCounts = data.users.map(function(item){
-        return item.counts.media;
+      var yCounts = data.media.map(function(item){
+        return item.likes.count;
       });
       
       yCounts.unshift('Media Count');
