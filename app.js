@@ -176,6 +176,8 @@ app.get('/igphotos', ensureAuthenticatedInstagram, function(req, res){
   });
 });
 
+
+
 app.get('/igMediaCounts', ensureAuthenticatedInstagram, function(req, res){
   var query  = models.User.where({ ig_id: req.user.ig_id });
   query.findOne(function (err, user) {
@@ -217,6 +219,10 @@ app.get('/igMediaCounts', ensureAuthenticatedInstagram, function(req, res){
 });
 
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 app.get('/visualization', ensureAuthenticatedInstagram, function (req, res){
   res.render('visualization');
 }); 
@@ -225,6 +231,10 @@ app.get('/visualization', ensureAuthenticatedInstagram, function (req, res){
 app.get('/c3visualization', ensureAuthenticatedInstagram, function (req, res){
   res.render('c3visualization');
 }); 
+
+app.get('/new-c3', ensureAuthenticatedInstagram, function (req, res){
+  res.render('new-c3');
+});
 
 app.get('/auth/instagram',
   passport.authenticate('instagram'),
