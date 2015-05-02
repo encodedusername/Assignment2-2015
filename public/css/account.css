@@ -1,0 +1,48 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,700);
+
+.buttons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 60px;
+  margin-top: -30px;
+  margin-left: -165px;
+}
+
+ul {list-style: none; font-size: 0;}
+
+ul li {
+  display: inline-block;
+  height: 50px;
+  vertical-align: top;
+  color: rgba(0,0,0, .6);
+  font: 300 11px 'Source Sans Pro';
+  letter-spacing: 2px;
+  text-align: center;
+  text-transform: uppercase;
+  border-right: 1px solid rgba(0,0,0,.05);
+  padding: 5px 25px;
+}
+
+ul li span {
+  display: block;
+  color: black;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+  padding-top: 5px;
+}
+
+ul li span img {
+  max-width: 20px;
+  height: auto !important;
+  padding-top: 5px;
+}
+
+ul li:first-child {padding-left:0;}
+ul li:last-child {border:none;padding-right:0;}
+
+p{
+  text-align: center;
+}
