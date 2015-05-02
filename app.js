@@ -227,6 +227,8 @@ app.get('/igMediaLikes', ensureAuthenticatedInstagram, function(req, res){
         //user_id: user.ig_id,
         access_token: user.ig_access_token,
         complete: function(data) {
+            return res.json({media: data});  
+          /*
           // an array of asynchronous functions
           var asyncTasks = [];
           var media = [];
@@ -234,14 +236,20 @@ app.get('/igMediaLikes', ensureAuthenticatedInstagram, function(req, res){
           data.forEach(function(item){
             asyncTasks.push(function(callback){
               // asynchronous function!
-              Instagram.media.info({ 
-                  media_id: item.id,
-                  access_token: user.ig_access_token,
-                  complete: function(data) {
-                    media.push(data);
-                    callback();
-                  }
-                });            
+              console.log(item.type);
+              console.log(item.id);
+              if (item.type == "sweg") {
+                Instagram.media.info({ 
+                    media_id: item.id,
+                    access_token: user.ig_access_token,
+                    complete: function(data) {
+                      media.push(data);
+                      callback();
+                    }
+                  });     
+              }
+              else
+                callback();       
             });
           });
           
@@ -251,7 +259,7 @@ app.get('/igMediaLikes', ensureAuthenticatedInstagram, function(req, res){
             // All tasks are done now
             if (err) return err;
             return res.json({media: media});        
-          });
+          });*/
         }
       });   
     }
