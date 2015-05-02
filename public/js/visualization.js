@@ -26,12 +26,14 @@ var svg = d3.select("body").append("svg")
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+var g_data;
 //get json object which contains media counts
 d3.json('/igMediaCounts', function(error, data) {
+  g_data = data;
   //set domain of x to be all the usernames contained in the data
-  scaleX.domain(data.users.map(function(d) { return d.username; }));
+  scaleX.domain(g_data.users.map(function(d) { return d.username; }));
   //set domain of y to be from 0 to the maximum media count returned
-  scaleY.domain([0, d3.max(data.users, function(d) { return d.counts.media; })]);
+  scaleY.domain([0, d3.max(g_data.users, function(d) { return d.counts.media; })]);
 
   //set up x axis
   svg.append("g")
@@ -59,7 +61,7 @@ d3.json('/igMediaCounts', function(error, data) {
 
   //set up bars in bar graph
   svg.selectAll(".bar")
-    .data(data.users)
+    .data(g_data.users)
     .enter().append("rect")
     .attr("class", "bar")
     .attr("x", function(d) { return scaleX(d.username); })
@@ -67,3 +69,33 @@ d3.json('/igMediaCounts', function(error, data) {
     .attr("y", function(d) { return scaleY(d.counts.media); })
     .attr("height", function(d) { return height - scaleY(d.counts.media); });
 });
+
+function update() {
+  g_data.users.sort(function(a, b) {
+    return a.counts.media - b.counts.media;
+  });
+
+  scaleX.domain(g_data.users.map(function(d) { return d.username; }));
+  //scaleY.domain([0, d3.max(g_data.users, function(d) { return d.counts.media; })]);
+
+  svg.select("g.x.axis")
+    .transition()
+    .duration(1000)
+    .attr("transform", "translate(0," + height + ")") //move x-axis to the bottom
+    .call(xAxis)
+    .selectAll("text")  
+    .style("text-anchor", "end")
+    .attr("dx", "-.8em")
+    .attr("dy", ".15em")
+    .attr("transform", function(d) {
+      return "rotate(-65)" 
+    });
+    
+  svg.selectAll(".bar")
+    .data(g_data.users)
+    .transition()
+    .duration(1500)
+    .attr("x", function(d) { return scaleX(d.username); })
+    .attr("y", function(d) { return scaleY(d.counts.media); })
+    .attr("height", function(d) { return height - scaleY(d.counts.media); });
+}

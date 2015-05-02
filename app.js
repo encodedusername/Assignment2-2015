@@ -216,6 +216,7 @@ app.get('/igMediaCounts', ensureAuthenticatedInstagram, function(req, res){
   });
 });
 
+
 app.get('/visualization', ensureAuthenticatedInstagram, function (req, res){
   res.render('visualization');
 }); 
