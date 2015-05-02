@@ -1,35 +1,30 @@
-@keyframes move {
-  0% {
-    background-size: 150%;
-    background-position: center;
-  }
-  100% {
-    background-size: 100%;
-    background-position: center;
-  }
-}
-html, body {
-  background: #001E46 url(http://i.imgur.com/5HldDuP.png) center center no-repeat;
-  background-size: 100%;
-  height: 100%;
-  animation: move 30s ease-in-out;
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,700);
+
+.header {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 60px;
+  margin-top: -100px;
+  margin-left: -200px;
 }
 
 h1{
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  color: #fff;
+  display: inline-block;
+  height: 50px;
+  vertical-align: top;
   text-align: center;
-  top: 40%;
-  left: 50%;
-  font-family: "Calligraffitti";
-  font-weight: normal;
-  font-size: 5em;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-  transform: translate3d(-50%,-50%,0);
+  color: rgba(0,0,0, .6);
+  font: 300 46px 'Source Sans Pro';
+  letter-spacing: 2px;
+  text-align: center;
+  text-transform: uppercase;
 
 }
+
+
+
 
 
 .container {
